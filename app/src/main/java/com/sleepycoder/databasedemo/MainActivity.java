@@ -20,18 +20,23 @@ public class MainActivity extends AppCompatActivity {
 
         DBHelper db = new DBHelper(this);
 
-        updateData(db);
-
 //        insertData(db);
 //        selectData(db);
+//        updateData(db);
+//        deleteData(db);
+    }
 
+    private void deleteData(DBHelper db) {
+        int rv = db.getWritableDatabase().delete("users", "username = ?", new String[]{"name2"});
+        Toast.makeText(this, "Affected rows: " + rv, Toast.LENGTH_SHORT).show();
+        selectData(db);
     }
 
     private void updateData(DBHelper db) {
         ContentValues cv = new ContentValues();
         cv.put("username", "name2");
 
-        int rv = db.getWritableDatabase().update("users",cv,"username = ?",new String[]{"name1"});
+        int rv = db.getWritableDatabase().update("users", cv, "username = ?", new String[]{"name1"});
 
         Toast.makeText(this, "Rows updated: " + rv, Toast.LENGTH_SHORT).show();
     }
@@ -46,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void selectData(DBHelper db) {
         data.setText("id");
-        Cursor cursor = db.getReadableDatabase().query("users", null, "username = ?", new String[]{"name2"}, null, null, null);
+        Cursor cursor = db.getReadableDatabase().query("users", null, null, null, null, null, null);
 
         Toast.makeText(this, "Is BeforeFirst? " + cursor.isBeforeFirst(), Toast.LENGTH_SHORT).show();
         while (cursor.moveToNext()) {
